@@ -9,7 +9,7 @@
         <!--Record-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController title="Record" id="vXZ-lx-hvc" customClass="ViewController" customModule="Pitch_Perfect" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Record" id="vXZ-lx-hvc" customClass="RecordSoundsViewController" customModule="Pitch_Perfect" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
@@ -40,7 +40,6 @@
                                 </state>
                                 <connections>
                                     <action selector="stopRecording:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Otb-4G-jad"/>
-                                    <segue destination="kxD-WD-s3m" kind="show" id="bvu-bc-7IV"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -103,11 +102,12 @@
                         <outlet property="recordButton" destination="bdp-bw-9eg" id="Keu-Uf-6Iw"/>
                         <outlet property="recordingLabel" destination="mUE-e6-TFm" id="Rop-wG-Uyj"/>
                         <outlet property="stopRecordingButton" destination="h44-SZ-uPb" id="aGD-cE-Xb0"/>
+                        <segue destination="kxD-WD-s3m" kind="show" identifier="stopRecording" id="MkV-iP-AXI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1183.5" y="305"/>
+            <point key="canvasLocation" x="1150.5" y="305"/>
         </scene>
         <!--Effects-->
         <scene sceneID="DZW-Bb-Wt4">

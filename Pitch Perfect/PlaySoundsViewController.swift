@@ -11,6 +11,8 @@ import AVFoundation
 class PlaySoundsViewController: UIViewController {
 
   var audioPlayer: AVAudioPlayer!
+  var receivedAudio: RecordedAudio!
+  
   var restartAudio: Bool = true
   
   @IBOutlet weak var stopAudioButton: UIButton!
@@ -18,13 +20,9 @@ class PlaySoundsViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     stopAudioButton.hidden = true
-    if let path = NSBundle.mainBundle().pathForResource("movie_quote", ofType: "mp3") {
-      let movieQuoteUrl = NSURL.fileURLWithPath(path)
-      audioPlayer = AVAudioPlayer(contentsOfURL: movieQuoteUrl, error:nil)
-      audioPlayer.enableRate = true
-    } else {
-      println("could not find movie_quote.mp3 in the application")
-    }
+    
+    audioPlayer = AVAudioPlayer(contentsOfURL: receivedAudio.filePathURL, error:nil)
+    audioPlayer.enableRate = true
   }
 
   override func didReceiveMemoryWarning() {
@@ -56,14 +54,5 @@ class PlaySoundsViewController: UIViewController {
     audioPlayer.play()
     stopAudioButton.hidden = false
   }
-  /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
