@@ -13,6 +13,9 @@
 		2AA7DC8B1B5332CF005DFD1F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2AA7DC8A1B5332CF005DFD1F /* Images.xcassets */; };
 		2AA7DC8E1B5332CF005DFD1F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AA7DC8C1B5332CF005DFD1F /* LaunchScreen.xib */; };
 		2AA7DC9A1B5332CF005DFD1F /* Pitch_PerfectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA7DC991B5332CF005DFD1F /* Pitch_PerfectTests.swift */; };
+		2AA7DCA41B54A54E005DFD1F /* PlaySoundsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA7DCA31B54A54E005DFD1F /* PlaySoundsViewController.swift */; };
+		2AA7DCAA1B54B1D5005DFD1F /* movie_quote.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2AA7DCA91B54B1D5005DFD1F /* movie_quote.mp3 */; };
+		2AA7DCAB1B54B1D5005DFD1F /* movie_quote.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2AA7DCA91B54B1D5005DFD1F /* movie_quote.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +39,8 @@
 		2AA7DC931B5332CF005DFD1F /* Pitch PerfectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Pitch PerfectTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AA7DC981B5332CF005DFD1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2AA7DC991B5332CF005DFD1F /* Pitch_PerfectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pitch_PerfectTests.swift; sourceTree = "<group>"; };
+		2AA7DCA31B54A54E005DFD1F /* PlaySoundsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaySoundsViewController.swift; sourceTree = "<group>"; };
+		2AA7DCA91B54B1D5005DFD1F /* movie_quote.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = movie_quote.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +85,7 @@
 				2AA7DC831B5332CE005DFD1F /* AppDelegate.swift */,
 				2AA7DC851B5332CE005DFD1F /* ViewController.swift */,
 				2AA7DC871B5332CF005DFD1F /* Main.storyboard */,
+				2AA7DCA31B54A54E005DFD1F /* PlaySoundsViewController.swift */,
 				2AA7DC8A1B5332CF005DFD1F /* Images.xcassets */,
 				2AA7DC8C1B5332CF005DFD1F /* LaunchScreen.xib */,
 				2AA7DC811B5332CE005DFD1F /* Supporting Files */,
@@ -107,9 +113,18 @@
 		2AA7DC971B5332CF005DFD1F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2AA7DCA81B54B1C2005DFD1F /* Audio */,
 				2AA7DC981B5332CF005DFD1F /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2AA7DCA81B54B1C2005DFD1F /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				2AA7DCA91B54B1D5005DFD1F /* movie_quote.mp3 */,
+			);
+			name = Audio;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -194,6 +209,7 @@
 			files = (
 				2AA7DC891B5332CF005DFD1F /* Main.storyboard in Resources */,
 				2AA7DC8E1B5332CF005DFD1F /* LaunchScreen.xib in Resources */,
+				2AA7DCAA1B54B1D5005DFD1F /* movie_quote.mp3 in Resources */,
 				2AA7DC8B1B5332CF005DFD1F /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -202,6 +218,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2AA7DCAB1B54B1D5005DFD1F /* movie_quote.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,6 +230,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2AA7DC861B5332CE005DFD1F /* ViewController.swift in Sources */,
+				2AA7DCA41B54A54E005DFD1F /* PlaySoundsViewController.swift in Sources */,
 				2AA7DC841B5332CE005DFD1F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -409,6 +427,7 @@
 				2AA7DC9F1B5332CF005DFD1F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2AA7DCA01B5332CF005DFD1F /* Build configuration list for PBXNativeTarget "Pitch PerfectTests" */ = {
 			isa = XCConfigurationList;
@@ -417,6 +436,7 @@
 				2AA7DCA21B5332CF005DFD1F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
