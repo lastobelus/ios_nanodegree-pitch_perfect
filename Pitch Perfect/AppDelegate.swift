@@ -8,6 +8,11 @@
 
 import UIKit
 
+
+struct UIColors {
+  static var Blue = UIColor(red: 33/255, green: 73/255, blue: 111/255, alpha: 1)
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

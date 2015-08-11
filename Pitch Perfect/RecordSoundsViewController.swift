@@ -14,10 +14,16 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
   @IBOutlet weak var recordButton: UIButton!
   @IBOutlet weak var recordingLabel: UILabel!
   @IBOutlet weak var stopRecordingButton: UIButton!
+  @IBOutlet weak var recordTimeLabel: UILabel!
+  @IBOutlet weak var pauseOrResumeButton: UIButton!
 
   var audioRecorder:AVAudioRecorder!
   var recordedAudio: RecordedAudio!
   
+  var elapsedTimeUpdateTimer: NSTimer!
+
+  lazy var currentRecordingFileURL: NSURL = self.initializeCurrentRecordingFileURL()
+
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view, typically from a nib.
@@ -29,52 +35,48 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
   }
 
   override func viewWillAppear(animated: Bool) {
-    stopRecordingButton.hidden = true
-    recordButton.enabled = true
+    recordingLabel.text = "Tap to Record"
+    hideRecordingControls()
+    recordingLabel.hidden = false
   }
 
   @IBAction func recordAudio(sender: UIButton) {
-    self.recordingLabel.hidden = false
-    self.stopRecordingButton.hidden = false
-    self.recordButton.enabled = false
-    let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String
-      
-    let recordingName = "current_recording.wav"
-    let pathArray = [dirPath, recordingName]
-    let filePath = NSURL.fileURLWithPathComponents(pathArray)
-    println(filePath)
-      
+    showRecordingControls()
+    
     var session = AVAudioSession.sharedInstance()
     session.setCategory(AVAudioSessionCategoryPlayAndRecord, error: nil)
     
-    audioRecorder = AVAudioRecorder(URL: filePath, settings: nil, error: nil)
+    audioRecorder = AVAudioRecorder(URL: currentRecordingFileURL, settings: nil, error: nil)
     audioRecorder.delegate = self
-    audioRecorder.meteringEnabled = true
     audioRecorder.prepareToRecord()
     audioRecorder.record()
-      
+    beginUpdatingRecordTimeLabel()
   }
 
+  @IBAction func pauseOrResumeRecording(sender: UIButton) {
+    if audioRecorder.recording {
+      setPauseOrResumeButtonToResumeMode()
+      audioRecorder.pause()
+    } else {
+      setPauseOrResumeButtonToPauseMode()
+      audioRecorder.record()
+    }
+  }
+  
   @IBAction func stopRecording(sender: UIButton) {
-    self.recordingLabel.hidden = true;
-    self.stopRecordingButton.hidden = true;
-    self.recordButton.enabled = true
-    audioRecorder.stop()
-    var audioSession = AVAudioSession.sharedInstance()
-    audioSession.setActive(false, error: nil)
+    stopAudioRecorder()
+    hideRecordingControls()
+    setPauseOrResumeButtonToPauseMode()
+    stopUpdatingRecordTimeLabel()
   }
   
   func audioRecorderDidFinishRecording(recorder: AVAudioRecorder!, successfully flag: Bool) {
     if flag {
-      println("done recording!")
-      recordedAudio = RecordedAudio();
-      recordedAudio.filePathURL = recorder.url
-      recordedAudio.title = recorder.url.lastPathComponent
-      self.performSegueWithIdentifier("stopRecording", sender: recordedAudio)
+      recordedAudio = RecordedAudio(filePathURL: recorder.url, title: recorder.url.lastPathComponent!);
+      performSegueWithIdentifier("stopRecording", sender: recordedAudio)
     } else {
       println("Recording was not successful!")
-      self.recordButton.enabled = true
-      self.stopRecordingButton.hidden = true;
+      hideRecordingControls()
     }
   }
   
@@ -84,6 +86,66 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
       let data = sender as! RecordedAudio
       playSoundsVC.receivedAudio = data
     }
+  }
+  
+  func updateRecordTimeLabel() {
+    recordTimeLabel.text = formatTimeInterval(audioRecorder.currentTime)
+  }
+
+  private func initializeCurrentRecordingFileURL () -> NSURL {
+    let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String
+    let recordingName = "current_recording.wav"
+    let pathArray = [dirPath, recordingName]
+    let filePath = NSURL.fileURLWithPathComponents(pathArray)
+    return filePath!
+  }
+  
+  private func showRecordingControls() {
+    recordingLabel.text = "recording"
+    stopRecordingButton.hidden = false
+    pauseOrResumeButton.hidden = false
+    recordTimeLabel.hidden = false
+    
+    recordButton.enabled = false
+  }
+  
+  private func hideRecordingControls() {
+    stopRecordingButton.hidden = true
+    pauseOrResumeButton.hidden = true
+    recordTimeLabel.hidden = true
+
+    recordButton.enabled = true
+  }
+  
+  private func beginUpdatingRecordTimeLabel() {
+    recordTimeLabel.textColor = UIColor.redColor();
+    elapsedTimeUpdateTimer = NSTimer.scheduledTimerWithTimeInterval(0.05, target:self, selector: Selector("updateRecordTimeLabel"), userInfo: nil, repeats: true)
+  }
+
+  private func stopUpdatingRecordTimeLabel() {
+    recordTimeLabel.textColor = UIColors.Blue
+    elapsedTimeUpdateTimer.invalidate()
+  }
+
+  private func formatTimeInterval(timeInterval: NSTimeInterval) -> String {
+    let seconds = Int(timeInterval) % 60
+    let ms = Int((timeInterval - Double(seconds)) * 10.0)
+    let minutes = Int(timeInterval / 60) % 60
+     return String(format: "%02i:%02i.%01i",minutes,seconds,ms)
+  }
+
+  private func setPauseOrResumeButtonToPauseMode() {
+    pauseOrResumeButton.setImage(UIImage (named: "pause"), forState: .Normal)
+  }
+
+  private func setPauseOrResumeButtonToResumeMode() {
+    pauseOrResumeButton.setImage(UIImage (named: "resume"), forState: .Normal)
+  }
+
+  private func stopAudioRecorder() {
+    audioRecorder.stop()
+    let audioSession = AVAudioSession.sharedInstance()
+    audioSession.setActive(false, error: nil)
   }
 }
 

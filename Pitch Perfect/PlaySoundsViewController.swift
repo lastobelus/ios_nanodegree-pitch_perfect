@@ -11,7 +11,9 @@ import AVFoundation
 class PlaySoundsViewController: UIViewController {
 
   var audioPlayer: AVAudioPlayer!
-  var audioEngine: AVAudioEngine!
+  var audioPlayerNode: AVAudioPlayerNode!
+  lazy var audioEngine: AVAudioEngine = AVAudioEngine()
+
   var audioFile: AVAudioFile!
 
   var receivedAudio: RecordedAudio!
@@ -29,7 +31,6 @@ class PlaySoundsViewController: UIViewController {
     audioPlayer = AVAudioPlayer(contentsOfURL: receivedAudio.filePathURL, error:nil)
     audioPlayer.enableRate = true
 
-    audioEngine = AVAudioEngine()
     audioFile = AVAudioFile(forReading: receivedAudio.filePathURL, error: &error)
 
     if let e = error {
@@ -45,48 +46,70 @@ class PlaySoundsViewController: UIViewController {
   }
     
   @IBAction func playSlow(sender: UIButton) {
-    println("playSlow action")
+    enableStopButton()
     playAudioAtRate(0.5)
   }
 
   @IBAction func playFast(sender: UIButton) {
-    println("playFast action")
+    enableStopButton()
     playAudioAtRate(2.0)
   }
 
-  @IBAction func stopAudio(sender: UIButton) {
-    println("stopAudio action")
-    stopAudioButton.hidden = true
-    audioPlayer.stop()
-    audioEngine.stop()
-  }
-
   @IBAction func playChipmunkAudio(sender: UIButton) {
-    println("playChipmunk action")
+    enableStopButton()
     playAudioWithVariablePitch(1000)
   }
   
   @IBAction func playDarthVaderAudio(sender: UIButton) {
-    println("playDarthVaderAudio action")
+    enableStopButton()
     playAudioWithVariablePitch(-1000)
   }
   
-  private func playAudioWithVariablePitch(pitch: Float) {
-    var error: NSError?
-
-    audioPlayer.stop()
-    audioEngine.stop()
-    audioEngine.reset()
+  @IBAction func playAlien(sender: UIButton) {
+    enableStopButton()
+    stopAllAudioPlayers()
+    let distortionEffect = AVAudioUnitDistortion()
+    let reverbEffect = AVAudioUnitReverb()
     
-    let audioPlayerNode = AVAudioPlayerNode()
-    audioEngine.attachNode(audioPlayerNode)
+    distortionEffect.loadFactoryPreset(AVAudioUnitDistortionPreset.SpeechAlienChatter)
+    reverbEffect.loadFactoryPreset(AVAudioUnitReverbPreset.Cathedral)
+    playAudioWithFilters([distortionEffect, reverbEffect])
+  }
 
+  @IBAction func stopAudio(sender: UIButton) {
+    println("stopAudio action")
+    stopAudioButton.enabled = false
+    stopAllAudioPlayers()
+  }
+  
+  private func playAudioWithVariablePitch(pitch: Float) {
+    stopAllAudioPlayers()
+    
     let changePitchEffect = AVAudioUnitTimePitch()
     changePitchEffect.pitch = pitch // In cents. The default value is 1.0. The range of values is -2400 to 2400
-    audioEngine.attachNode(changePitchEffect)
 
-    audioEngine.connect(audioPlayerNode, to: changePitchEffect, format: nil)
-    audioEngine.connect(changePitchEffect, to: audioEngine.outputNode, format: nil)
+    playAudioWithFilters([changePitchEffect])
+    
+  }
+
+  private func playAudioWithFilters(filters: [AVAudioNode]) {
+    var error: NSError?
+
+    audioEngine.reset()
+
+    audioPlayerNode = AVAudioPlayerNode()
+    audioEngine.attachNode(audioPlayerNode)
+
+//    connect the player and all filters in a chain
+    var currentFilter: AVAudioNode = audioPlayerNode
+    for filter in filters {
+      audioEngine.attachNode(filter)
+      audioEngine.connect(currentFilter, to: filter, format: nil)
+      currentFilter = filter
+    }
+
+//    connect the final filter to the output
+    audioEngine.connect(currentFilter, to: audioEngine.outputNode, format: nil)
 
     audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
     audioEngine.startAndReturnError(&error)
@@ -94,19 +117,28 @@ class PlaySoundsViewController: UIViewController {
       println("Error starting audioEngine:")
       println(e)
     } else {
+      stopAudioButton.hidden = false
       audioPlayerNode.play()
     }
-  }
+}
   
-  private func playAudioAtRate(rate: Float) {
+  private func stopAllAudioPlayers() {
     audioPlayer.stop()
     audioEngine.stop()
+  }
+
+  private func playAudioAtRate(rate: Float) {
+    stopAllAudioPlayers()
     audioPlayer.rate = rate
     if restartAudio {
       audioPlayer.currentTime = 0.0
     }
     audioPlayer.play()
+  }
+  
+  private func enableStopButton() {
     stopAudioButton.hidden = false
+    stopAudioButton.enabled = true
   }
 
 }
