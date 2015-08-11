@@ -46,28 +46,22 @@ class PlaySoundsViewController: UIViewController {
   }
     
   @IBAction func playSlow(sender: UIButton) {
-    enableStopButton()
     playAudioAtRate(0.5)
   }
 
   @IBAction func playFast(sender: UIButton) {
-    enableStopButton()
     playAudioAtRate(2.0)
   }
 
   @IBAction func playChipmunkAudio(sender: UIButton) {
-    enableStopButton()
     playAudioWithVariablePitch(1000)
   }
   
   @IBAction func playDarthVaderAudio(sender: UIButton) {
-    enableStopButton()
     playAudioWithVariablePitch(-1000)
   }
   
   @IBAction func playAlien(sender: UIButton) {
-    enableStopButton()
-    stopAllAudioPlayers()
     let distortionEffect = AVAudioUnitDistortion()
     let reverbEffect = AVAudioUnitReverb()
     
@@ -83,8 +77,6 @@ class PlaySoundsViewController: UIViewController {
   }
   
   private func playAudioWithVariablePitch(pitch: Float) {
-    stopAllAudioPlayers()
-    
     let changePitchEffect = AVAudioUnitTimePitch()
     changePitchEffect.pitch = pitch // In cents. The default value is 1.0. The range of values is -2400 to 2400
 
@@ -94,6 +86,9 @@ class PlaySoundsViewController: UIViewController {
 
   private func playAudioWithFilters(filters: [AVAudioNode]) {
     var error: NSError?
+    
+    stopAllAudioPlayers()
+    enableStopButton()
 
     audioEngine.reset()
 
@@ -129,6 +124,8 @@ class PlaySoundsViewController: UIViewController {
 
   private func playAudioAtRate(rate: Float) {
     stopAllAudioPlayers()
+    enableStopButton()
+
     audioPlayer.rate = rate
     if restartAudio {
       audioPlayer.currentTime = 0.0
