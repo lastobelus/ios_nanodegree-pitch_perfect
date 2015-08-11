@@ -55,6 +55,7 @@ class PlaySoundsViewController: UIViewController {
   }
 
   @IBAction func stopAudio(sender: UIButton) {
+    println("stopAudio action")
     stopAudioButton.hidden = true
     audioPlayer.stop()
     audioEngine.stop()
@@ -63,6 +64,11 @@ class PlaySoundsViewController: UIViewController {
   @IBAction func playChipmunkAudio(sender: UIButton) {
     println("playChipmunk action")
     playAudioWithVariablePitch(1000)
+  }
+  
+  @IBAction func playDarthVaderAudio(sender: UIButton) {
+    println("playDarthVaderAudio action")
+    playAudioWithVariablePitch(-1000)
   }
   
   private func playAudioWithVariablePitch(pitch: Float) {

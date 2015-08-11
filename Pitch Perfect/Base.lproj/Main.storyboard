@@ -121,6 +121,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MR3-8U-1io">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <state key="normal" image="chipmunk">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="playChipmunkAudio:" destination="kxD-WD-s3m" eventType="touchUpInside" id="9oV-Gg-mSW"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VBd-AA-jje">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <state key="normal" image="slow">
@@ -148,13 +157,14 @@
                                     <action selector="stopAudio:" destination="kxD-WD-s3m" eventType="touchUpInside" id="072-NF-N7h"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MR3-8U-1io">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="58f-YL-fQ6">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                <state key="normal" image="chipmunk">
+                                <state key="normal" image="darthvader">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="playChipmunkAudio:" destination="kxD-WD-s3m" eventType="touchUpInside" id="9oV-Gg-mSW"/>
+                                    <action selector="playChipmunkAudio:" destination="kxD-WD-s3m" eventType="touchUpInside" id="JTS-zD-ono"/>
+                                    <action selector="playDarthVaderAudio:" destination="kxD-WD-s3m" eventType="touchUpInside" id="4Ii-HX-PX6"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -165,19 +175,22 @@
                             <constraint firstAttribute="trailingMargin" secondItem="HNX-VO-JRr" secondAttribute="trailing" constant="21" id="HmK-hQ-eoJ">
                                 <variation key="widthClass=compact" constant="30"/>
                             </constraint>
+                            <constraint firstItem="58f-YL-fQ6" firstAttribute="top" secondItem="HNX-VO-JRr" secondAttribute="bottom" constant="75" id="QE5-6F-wyU"/>
                             <constraint firstItem="HNX-VO-JRr" firstAttribute="top" secondItem="dCt-zi-MT6" secondAttribute="bottom" constant="50" id="Y1j-hG-57o"/>
                             <constraint firstItem="VBd-AA-jje" firstAttribute="leading" secondItem="ghf-de-hoq" secondAttribute="leadingMargin" constant="30" id="jv9-8C-lhA"/>
                             <constraint firstItem="VBd-AA-jje" firstAttribute="top" secondItem="dCt-zi-MT6" secondAttribute="bottom" constant="50" id="l6h-xq-uXK"/>
                             <constraint firstItem="l9e-h2-hgB" firstAttribute="top" secondItem="1SN-W7-ry0" secondAttribute="bottom" constant="50" id="mJN-cY-S5Y"/>
                             <constraint firstItem="MR3-8U-1io" firstAttribute="top" secondItem="VBd-AA-jje" secondAttribute="bottom" constant="75" id="vUP-nL-sEJ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="58f-YL-fQ6" secondAttribute="trailing" constant="30" id="wV4-uc-PTT"/>
                             <constraint firstItem="MR3-8U-1io" firstAttribute="leading" secondItem="ghf-de-hoq" secondAttribute="leadingMargin" constant="30" id="y05-Pi-7hF"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
+                                <exclude reference="MR3-8U-1io"/>
                                 <exclude reference="VBd-AA-jje"/>
                                 <exclude reference="HNX-VO-JRr"/>
                                 <exclude reference="1SN-W7-ry0"/>
-                                <exclude reference="MR3-8U-1io"/>
+                                <exclude reference="58f-YL-fQ6"/>
                             </mask>
                             <mask key="constraints">
                                 <exclude reference="jv9-8C-lhA"/>
@@ -186,6 +199,8 @@
                                 <exclude reference="Y1j-hG-57o"/>
                                 <exclude reference="vUP-nL-sEJ"/>
                                 <exclude reference="y05-Pi-7hF"/>
+                                <exclude reference="QE5-6F-wyU"/>
+                                <exclude reference="wV4-uc-PTT"/>
                                 <exclude reference="4yf-AL-qaN"/>
                                 <exclude reference="0qR-PY-Nr3"/>
                                 <exclude reference="mJN-cY-S5Y"/>
@@ -193,10 +208,11 @@
                         </variation>
                         <variation key="widthClass=compact">
                             <mask key="subviews">
+                                <include reference="MR3-8U-1io"/>
                                 <include reference="VBd-AA-jje"/>
                                 <include reference="HNX-VO-JRr"/>
                                 <include reference="1SN-W7-ry0"/>
-                                <include reference="MR3-8U-1io"/>
+                                <include reference="58f-YL-fQ6"/>
                             </mask>
                             <mask key="constraints">
                                 <include reference="jv9-8C-lhA"/>
@@ -205,6 +221,8 @@
                                 <include reference="Y1j-hG-57o"/>
                                 <include reference="vUP-nL-sEJ"/>
                                 <include reference="y05-Pi-7hF"/>
+                                <include reference="QE5-6F-wyU"/>
+                                <include reference="wV4-uc-PTT"/>
                                 <include reference="4yf-AL-qaN"/>
                                 <exclude reference="0qR-PY-Nr3"/>
                                 <include reference="mJN-cY-S5Y"/>
@@ -241,6 +259,7 @@
     </scenes>
     <resources>
         <image name="chipmunk" width="100" height="100"/>
+        <image name="darthvader" width="100" height="100"/>
         <image name="fast" width="100" height="100"/>
         <image name="microphone" width="100" height="100"/>
         <image name="slow" width="100" height="100"/>
